@@ -229,16 +229,25 @@ public class Main {
         int tamanhoDaSenha = senha.length();
         //verificar se o tamanho é igual ou maior que 6 e armazenar em variável
         boolean senhaTemTamanhoMinimo = tamanhoDaSenha >= 6;
+        boolean senhaTemDigito = false;
         //vamos pensar sobre a questão de ter ao menos um numero
-        Array
-        //verificar se a senha tem pelo menos 1 digito e armazenar em variável
-        boolean senhaTem1Digito;
-        //verificar se a senha tem pelo menos 1 char minusculo e armazenar em variável
-        boolean senhaTem1Minusculo;
-        //verificar se a senha tem pelo menos 1 char maiusculo e armazenar em variável
-        boolean senhaTem1Maiusculo;
-        //verificar se a senha tem pelo menos 1 char especial e armazenar em variável
-        boolean senhaTem1Especial;
+
+        //criando um loop que investiga índice por índice se há um digito na senha
+        for (int indexDaSenha = 0; indexDaSenha <= tamanhoDaSenha - 1; indexDaSenha++) {
+            for (char verificarDigito = '0'; verificarDigito <= '9'; verificarDigito++) {
+                if (verificarDigito == senha.charAt(indexDaSenha)) {
+                    //caso for igual a um dos valores na condição, ele acusa verdadeiro
+                    //portanto a senha tem um digito
+                    senhaTemDigito = true;
+                }
+            }
+        }
+        if (senhaTemDigito) {
+            System.out.println("Essa senha tem número");
+        } else {
+            System.out.println("Não tem número na senha");
+        }
+
 
 
 
