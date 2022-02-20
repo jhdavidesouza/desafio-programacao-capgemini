@@ -65,7 +65,7 @@ public class Main {
     //*************  MÉTODOS ABAIXO  *******************************************************************************************
     //*************  MÉTODOS ABAIXO  *******************************************************************************************
     public static void criadorDeEscada() {
-        Scanner leitor = new Scanner(System.in);
+        Scanner leitorq1 = new Scanner(System.in);
         //Vamos informar ao usuário
         /*
         * Para que ele informe o tamanho da
@@ -78,7 +78,7 @@ public class Main {
         System.out.println("Por favor, informe um número " +
                 "maior que zero para criarmos sua escada:");
         //criando variável para receber tamanho n
-        int tamanhoN = leitor.nextInt();
+        int tamanhoN = leitorq1.nextInt();
         //dependendo do escopo que se quer chegar
         // podemos trocar o tipo 'int' para tipo 'long'
 
@@ -137,7 +137,7 @@ public class Main {
             //informando ao usuário o que ele digitou
             System.out.println("Você digitou esse número: " + tamanhoN + "\n");
             System.out.println("Por favor, digite um número maior que zero:");
-            tamanhoN = leitor.nextInt();
+            tamanhoN = leitorq1.nextInt();
         }
 
         //agora, após sair desse loop condicional, deixaremos o programa
@@ -200,7 +200,7 @@ public class Main {
     }
 
     public static void verificadorDeSenha() {
-        Scanner leitor = new Scanner(System.in);
+        Scanner leitorq2 = new Scanner(System.in);
         //Vamos informar ao usuário
         /*
          * Para que ele informe a senha a ser verificada
@@ -219,38 +219,69 @@ public class Main {
         System.out.println("4. A senha tem no mínimo 1 letra maiúscula\n" +
                             "Exemplo: Abcde1 - possui 1 letra maiúscula, minúscula, 1 digito e 6 caracteres");
         System.out.println("5. A senha tem no mínimo 1 caracter especial\n" +
-                            "       ! @ # $ % ^ & * ( ) - + \n" +
+                            "\t! @ # $ % ^ & * ( ) - +\n" +
                             "Exemplo: Ab#de1 - possui 1 caracter especial, maiúsculo, minúscula, 1 digito e 6 caracteres");
         System.out.print("\n\nDigite a senha para ser verificada: ");
         //usuário então escreve a senha
-        String senha = leitor.next();
 
+        String senha = leitorq2.next();
+
+        //verificar se a senha tem ao menos um char minusculo e armazenar em variável caso tenha
+        boolean senhaTemMinusculo = false;
+        //verificar se a senha tem ao menos um char especial e armazenar em variável caso tenha
+        boolean senhaTemEspecial = false;
+
+        //1. A senha tem no minimo 6 caracteres
         //vamos armazenar o tamanho da senha depois de ser informada
         int tamanhoDaSenha = senha.length();
-        //verificar se o tamanho é igual ou maior que 6 e armazenar em variável
-        boolean senhaTemTamanhoMinimo = tamanhoDaSenha >= 6;
-        boolean senhaTemDigito = false;
-        //vamos pensar sobre a questão de ter ao menos um numero
+        //iniciar uma variável que funcione como sinalizador, confirmando se
+        //o tamanho é igual ou maior que 6 e armazenar valor 'true' caso seja
+        boolean senhaTemTamanhoMinimo = false;
+        if (tamanhoDaSenha >= 6) {
+            senhaTemTamanhoMinimo = true;
+        }
 
+        //2. A senha tem no minimo 1 digito
+        // iniciar uma variável que funcione como sinalizador, confirmando se
+        // a senha tem ao menos um digito e armazenar em variável caso tenha
+        boolean senhaTemDigito = false;
         //criando um loop que investiga índice por índice se há um digito na senha
-        for (int indexDaSenha = 0; indexDaSenha <= tamanhoDaSenha - 1; indexDaSenha++) {
-            for (char verificarDigito = '0'; verificarDigito <= '9'; verificarDigito++) {
-                if (verificarDigito == senha.charAt(indexDaSenha)) {
+        for (int indexDaSenha = 0; indexDaSenha < tamanhoDaSenha; indexDaSenha++) {
+                if (Character.isDigit(senha.charAt(indexDaSenha))) {
                     //caso for igual a um dos valores na condição, ele acusa verdadeiro
                     //portanto a senha tem um digito
                     senhaTemDigito = true;
                 }
+        }
+
+        //3. A senha tem no mínimo 1 letra minúscula
+        for (int indexDaSenha = 0; indexDaSenha < tamanhoDaSenha; indexDaSenha++) {
+            if (Character.isLowerCase(senha.charAt(indexDaSenha))) {
+                senhaTemMinusculo = true;
             }
         }
-        if (senhaTemDigito) {
-            System.out.println("Essa senha tem número");
-        } else {
-            System.out.println("Não tem número na senha");
+
+        //4. A senha tem no mínimo 1 letra maiúscula
+        for (int indexDaSenha = 0; indexDaSenha < tamanhoDaSenha; indexDaSenha++) {
+            if (Character.isUpperCase(senha.charAt(indexDaSenha))) {
+                senhaTemMaiusculo = true;
+            }
         }
 
+        //5. A senha tem no mínimo 1 caracter especial
+        String caracteresEspeciais = "!@#$%^&*()-+";
+        int tamanhoDosCaracteresEspeciais = caracteresEspeciais.length();
 
-
-
+        for (int indexDaSenha = 0; indexDaSenha < tamanhoDaSenha; indexDaSenha++) {
+            for (int indexDosCaracteresEspeciais = 0;
+                 indexDosCaracteresEspeciais < tamanhoDosCaracteresEspeciais;
+                 indexDosCaracteresEspeciais++) {
+                if (senha.charAt(indexDaSenha) == caracteresEspeciais.charAt(indexDosCaracteresEspeciais)) {
+                    senhaTemEspecial = true;
+                    System.out.println(senha.charAt(indexDaSenha) + " é um caracter especial");
+                }
+            }
+        }
 
     }
 
