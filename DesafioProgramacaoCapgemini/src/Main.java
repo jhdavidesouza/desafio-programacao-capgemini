@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
@@ -27,7 +28,7 @@ public class Main {
             System.out.println("SAIR DO PROGRAMA - Digite 0");
             System.out.println("Questão 1 - Criador de Escada - Digite 1");
             System.out.println("Questão 2 - Verificador de Senha Segura - Digite 2");
-            System.out.println("Questão 3 - Verificador de Subanagramas - Digite 3\n");
+            System.out.println("Questão 3 - Verificador de Anagramas em Substrings - Digite 3");
             System.out.print("Digite aqui: ");
 
             char escolhaDoMenu = leitor.next().charAt(0);
@@ -48,9 +49,9 @@ public class Main {
                     verificadorDeSenha();
                     break;
                 case '3':
-                    System.out.println("\nVocê escolheu a Questão 3 - Verificador de Subanagramas\n");
+                    System.out.println("\nVocê escolheu a Questão 3 - Verificador de Anagramas em Substrings\n");
                     escolhaContinuarNoMenu = true;
-                    /*verificadorDeSubanagramas();*/
+                    verificadorDeSubanagramas();
                     break;
                 default:
                     System.out.println("\nO número informado não corresponde à nenhuma opção.");
@@ -204,6 +205,13 @@ public class Main {
                 }
             }
         }
+        //programa espera o usuário fazer esta ação abaixo, apenas para deixar a informação
+        //na tela mais controlada e menos abrupta
+        System.out.print("------------" +
+                "Para continuar, pressione qualquer tecla e depois pressione ENTER:" +
+                "------------");
+        leitorq1.next();
+        System.out.println();
     }
 
     public static void verificadorDeSenha() {
@@ -411,10 +419,49 @@ public class Main {
                 }
             }
         }
-
+        //programa espera o usuário fazer esta ação abaixo, apenas para deixar a informação
+        //na tela mais controlada e menos abrupta
+        System.out.print("------------" +
+                "Para continuar, pressione qualquer tecla e depois pressione ENTER:" +
+                "------------");
+        leitorq2.next();
+        System.out.println();
     }
 
     public static void verificadorDeSubanagramas() {
+        Scanner leitorq3 = new Scanner(System.in);
 
+        //este procedimento achará todos os possíveis
+        //pares de substrings que são anagramas de uma string qualquer
+
+        //Informando ao usuário
+        System.out.println("Bem-vind@ à Questão 3 - Verificador de Anagramas em Substrings!");
+        System.out.print("Informe uma palavra qualquer: ");
+        //lendo a string informada pelo usuário
+        String stringLida = leitorq3.next();
+
+        //variável que inicializa com o tamanho da stringLida menos 1 e vai decrementando-se -1
+        // e servirá para informar qual o tipo de tamanho de palavra que será analisado
+        // por exemplo:
+        // tamanhoDaPalavra == 1, quer dizer que apenas letras serão analisadas
+        // tamanhoDaPalavra == 2, quer dizer que todos os pares possíveis de letras na palavra serão analisadas
+        // e assim por diante
+        int tamanhoDaPalavra = stringLida.length() - 1;
+
+        Arrays.sort();
+
+        //informando os resultados ao usuário depois do processamento de dados
+        System.out.println("\nEstes são os pares de substrings que são anagramas:");
+        System.out.println("Array de Substrings");
+        System.out.println("Nos índices: " + "Array de Índices");
+        System.out.println("Na palavra que você informou: " + stringLida);
+
+        //programa espera o usuário fazer esta ação abaixo, apenas para deixar a informação
+        //na tela mais controlada e menos abrupta
+        System.out.print("------------" +
+                            "Para continuar, pressione qualquer tecla e depois pressione ENTER:" +
+                            "------------");
+        leitorq3.next();
+        System.out.println();
     }
 }
