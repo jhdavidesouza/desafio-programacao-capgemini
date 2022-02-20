@@ -22,42 +22,49 @@ public class Main {
         System.out.println("Olá!");
         System.out.println("Bem-vind@ ao menu de questões!");
         System.out.println("Escolha uma das questões e digite o número dela:\n");
-        boolean escolhaMenuInvalida = false;
+        boolean escolhaContinuarNoMenu;
         do {
-            System.out.println("SAIR DO MENU - Digite 0");
+            System.out.println("SAIR DO PROGRAMA - Digite 0");
             System.out.println("Questão 1 - Criador de Escada - Digite 1");
-            System.out.println("Questão 2 - Verificador de Senha Segura- Digite 2");
+            System.out.println("Questão 2 - Verificador de Senha Segura - Digite 2");
             System.out.println("Questão 3 - Verificador de Subanagramas - Digite 3\n");
             System.out.print("Digite aqui: ");
 
-            int escolhaDoMenu = leitor.nextInt();
+            char escolhaDoMenu = leitor.next().charAt(0);
 
             switch (escolhaDoMenu) {
-                case 0:
-                    System.out.println("\nVocê escolheu sair do menu.\n\nAté mais!\n");
-                    escolhaMenuInvalida = false;
+                case '0':
+                    System.out.println("\nVocê escolheu sair do programa.\nAté mais!\n");
+                    escolhaContinuarNoMenu = false;
                     break;
-                case 1:
+                case '1':
                     System.out.println("\nVocê escolheu a Questão 1 - Criador de Escada\n");
-                    escolhaMenuInvalida = false;
+                    escolhaContinuarNoMenu = true;
                     criadorDeEscada();
                     break;
-                case 2:
+                case '2':
                     System.out.println("\nVocê escolheu a Questão 2 - Verificador de Senha Segura\n");
-                    escolhaMenuInvalida = false;
+                    escolhaContinuarNoMenu = true;
                     verificadorDeSenha();
                     break;
-                case 3:
+                case '3':
                     System.out.println("\nVocê escolheu a Questão 3 - Verificador de Subanagramas\n");
-                    escolhaMenuInvalida = false;
+                    escolhaContinuarNoMenu = true;
                     /*verificadorDeSubanagramas();*/
                     break;
                 default:
                     System.out.println("\nO número informado não corresponde à nenhuma opção.");
                     System.out.println("Por favor, digite uma das opções informadas!\n");
-                    escolhaMenuInvalida = true;
+                    escolhaContinuarNoMenu = true;
             }
-        } while (escolhaMenuInvalida);
+            if (escolhaContinuarNoMenu) {
+                System.out.println("\n...Retornando ao Menu de Opções...\n");
+            }
+            //o menu irá se repetir logo após o término de um método
+            //até que o usuário digite 0 para sair do programa
+        } while (escolhaContinuarNoMenu);
+
+
 
 
     }
@@ -222,63 +229,185 @@ public class Main {
                             "\t! @ # $ % ^ & * ( ) - +\n" +
                             "Exemplo: Ab#de1 - possui 1 caracter especial, maiúsculo, minúscula, 1 digito e 6 caracteres");
         System.out.print("\n\nDigite a senha para ser verificada: ");
-        //usuário então escreve a senha
 
+        //usuário então escreve a senha que será armazenada dentro da variável declarada
         String senha = leitorq2.next();
 
-        //verificar se a senha tem ao menos um char minusculo e armazenar em variável caso tenha
-        boolean senhaTemMinusculo = false;
-        //verificar se a senha tem ao menos um char especial e armazenar em variável caso tenha
-        boolean senhaTemEspecial = false;
+        //criando uma string de caracteres especiais para ser verificada posteriormente
+        //e ajudar no funcionamento do requisito 5.
+        String caracteresEspeciais = "!@#$%^&*()-+";
+        //criando uma string com todos os caracteres dos requisitos necessários
+        // para evitar que o usuário digite outros caracteres senão aqueles que
+        // atendem os requisitos
+        //por exemplo: < > ; / ´ ~ [ { } ] , entre outros
+        String caracteresValidos = "0123456789" +
+                                   "abcdefghijklmnopqrstuvwxyzç" +
+                                   "ABCDEFGHIJKLMNOPQRSTUVWXYZÇ" +
+                                   caracteresEspeciais;
 
-        //1. A senha tem no minimo 6 caracteres
-        //vamos armazenar o tamanho da senha depois de ser informada
+        //iniciar variável para que ela armazene o tamanho da senha digitada
         int tamanhoDaSenha = senha.length();
-        //iniciar uma variável que funcione como sinalizador, confirmando se
-        //o tamanho é igual ou maior que 6 e armazenar valor 'true' caso seja
-        boolean senhaTemTamanhoMinimo = false;
-        if (tamanhoDaSenha >= 6) {
-            senhaTemTamanhoMinimo = true;
+        //iniciamos uma variável que armazene o tamanho da string de char especiais
+        int tamanhoDosCaracteresEspeciais = caracteresEspeciais.length();
+        //iniciamos uma variável que armazene o tamanho da string de char válidos
+        int tamanhoDosCaracteresValidos = caracteresValidos.length();
+        //iniciar variáveis de valor lógico para que funcionem como sinalizador e retornem 'true'
+        // caso os requisitos delas sejam atendidos
+        boolean senhaTemTamanhoMinimo = tamanhoDaSenha >= 6;//1. se a senha for maior ou igual a 6
+        boolean senhaTemDigito = false;//2. se a senha possuir ao menos 1 digito
+        boolean senhaTemMinusculo = false;//3. se a senha possui ao menos 1 letra minúscula
+        boolean senhaTemMaiusculo = false;//4. se a senha possui ao menos 1 letra maiúscula
+        boolean senhaTemEspecial = false;//5. se a senha possui ao menos 1 char especial
+        //pode acontecer do usuário criar uma senha com um caracter inválido
+        // e deixar um bug no nosso programa
+        boolean senhaTemInvalido = false; //sinalizador que mudará para 'true' caso haja char inválido
+
+        //.charAt(X) é um método que retorna o caracter encontrado na posição X de um
+        // array ou string, esse método facilitará o processamento dos dados e verificação
+        // dos requisitos abaixo
+
+        //criando um loop que analisa se algum dos caracteres da senha
+        // é diferente do caracteres possíveis e válidos
+        // determinando se há caracteres inválidos ou não
+        for (int indexDaSenha = 0;
+                indexDaSenha < tamanhoDaSenha;
+                indexDaSenha++) {
+            //para cada index da senha a ser analisada
+            //o loop abaixo irá verificar se o index da senha
+            //é diferente de qualquer caracter que tenha dentro
+            // da string de caracteres disponiveis
+            int contadorDeCharIgual = 0;
+            //criamos esse contador para verificar no loop abaixo
+            // se houve algum caracter que fosse igual a algum dos caracteres válidos
+            for (int indexCaracteresValidos = 0;
+                 indexCaracteresValidos < tamanhoDosCaracteresValidos;
+                 indexCaracteresValidos++) {
+                //verificaremos se aquele caracter é igual a algum dos
+                //caracteres válidos
+                if (senha.charAt(indexDaSenha) == caracteresValidos.charAt(indexCaracteresValidos)) {
+                    //caso ele seja igual a algum
+                    //quer dizer que o caracter é válido e podemos prosseguir para o próximo
+                    // index da senha
+                    contadorDeCharIgual++;//se houver igual, adicionamos um
+                }
+            }
+            if (contadorDeCharIgual == 0) {
+                //se não houve caracter igual a ele, quer dizer
+                // que aquele caracter não é válido
+                //portanto há um caracter inválido na senha
+                senhaTemInvalido = true;
+            }
         }
 
         //2. A senha tem no minimo 1 digito
-        // iniciar uma variável que funcione como sinalizador, confirmando se
-        // a senha tem ao menos um digito e armazenar em variável caso tenha
-        boolean senhaTemDigito = false;
         //criando um loop que investiga índice por índice se há um digito na senha
         for (int indexDaSenha = 0; indexDaSenha < tamanhoDaSenha; indexDaSenha++) {
                 if (Character.isDigit(senha.charAt(indexDaSenha))) {
-                    //caso for igual a um dos valores na condição, ele acusa verdadeiro
+                    //método isDigit() retorna 'true' caso o caracter seja um número
                     //portanto a senha tem um digito
                     senhaTemDigito = true;
                 }
         }
 
         //3. A senha tem no mínimo 1 letra minúscula
+        //criando um loop que investiga índice por índice se há uma letra minuscula na senha
         for (int indexDaSenha = 0; indexDaSenha < tamanhoDaSenha; indexDaSenha++) {
             if (Character.isLowerCase(senha.charAt(indexDaSenha))) {
+                //método isLowerCase() retorna 'true' caso aquele caracter seja minúsculo
+                //portanto a senha tem um caracter minusculo
                 senhaTemMinusculo = true;
             }
         }
 
         //4. A senha tem no mínimo 1 letra maiúscula
+        //criando um loop que investiga índice por índice se há uma letra maiuscula na senha
         for (int indexDaSenha = 0; indexDaSenha < tamanhoDaSenha; indexDaSenha++) {
             if (Character.isUpperCase(senha.charAt(indexDaSenha))) {
+                //método isUpperCase() retorna 'true' caso aquele caracter seja maiúsculo
+                //portanto a senha tem um caracter maiúsculo
                 senhaTemMaiusculo = true;
             }
         }
 
         //5. A senha tem no mínimo 1 caracter especial
-        String caracteresEspeciais = "!@#$%^&*()-+";
-        int tamanhoDosCaracteresEspeciais = caracteresEspeciais.length();
-
-        for (int indexDaSenha = 0; indexDaSenha < tamanhoDaSenha; indexDaSenha++) {
+        //criando um loop que investiga índice por índice se há um char especial na senha
+        //*****Queremos que ele inicialize com o índice da senha
+        // e que cada caracter daquele índice seja comparado com
+        // todos os índices da string de char especiais
+        for (int indexDaSenha = 0;
+             indexDaSenha < tamanhoDaSenha;
+             indexDaSenha++) {
+            //aqui iniciamos o loop que pega o índice atual do loop anterior
+            //e compara com cada índice da string de char especiais
             for (int indexDosCaracteresEspeciais = 0;
                  indexDosCaracteresEspeciais < tamanhoDosCaracteresEspeciais;
                  indexDosCaracteresEspeciais++) {
+                //aqui abaixo, comparamos o caracter no index da senha informada
+                // com o caracter no index da string de char especiais
                 if (senha.charAt(indexDaSenha) == caracteresEspeciais.charAt(indexDosCaracteresEspeciais)) {
+                    //caso haja ao menos um char especial
+                    // o sinalizador criado no início do programa será 'true'
                     senhaTemEspecial = true;
-                    System.out.println(senha.charAt(indexDaSenha) + " é um caracter especial");
+                }
+            }
+        }
+
+        //com todos os sinalizadores já condicionados
+        //fazemos a verificação de invalidez da senha
+        //*****Caso não haja caracter inválido na senha
+        // começamos a analisar os requisitos
+        if (senhaTemInvalido){
+            System.out.println("\nSua senha não foi aprovada.\n" +
+                                "Sua senha possui algum caracter inválido!");
+            System.out.println("Lembrando que os caracteres válidos são estes abaixo:\n" +
+                                "0 1 2 3 4 5 6 7 8 9\n" +
+                                "a b c d e f g h i j k l m n o p q r s t u v w x y z ç\n" +
+                                "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z Ç\n" +
+                                "! @ # $ % ^ & * ( ) - +\n");
+        } else {
+            if (senhaTemTamanhoMinimo &&
+                    senhaTemDigito &&
+                    senhaTemMinusculo &&
+                    senhaTemMaiusculo &&
+                    senhaTemEspecial) {
+                //caso todos os requisitos sejam verdadeiros, a senha é segura e
+                //o usuário pode saber disso pela mensagem abaixo
+                System.out.println("\nSua senha está aprovada.\nSua senha é segura!");
+            } else {
+                //caso um deles seja falso, este 'senão' será acionado
+                // assim uma mensagem de erro será apresentada
+                // juntamente com todos os requisitos que NÃO foram atendidos
+                System.out.println("\nSua senha não foi aprovada.\nVerifique o que está faltando nela:\n");
+                if (!senhaTemTamanhoMinimo) {
+                    System.out.println("Requisito 1. Sua senha precisa ter no mínimo 6 caracteres");
+                    System.out.println("Coloque mais " + (6 - tamanhoDaSenha) + " caracteres em sua senha!\n");
+                }
+                if (!senhaTemDigito) {
+                    System.out.println("Requisito 2. Sua senha precisa ter no mínimo 1 digito");
+                    System.out.println("Coloque um digito em sua senha!");
+                    System.out.println("Lista de digitos possíveis: 0 1 2 3 4 5 6 7 8 9\n");
+                }
+                if (!senhaTemMinusculo) {
+                    System.out.println("Requisito 3. Sua senha precisa ter no mínimo 1 caracter minúsculo");
+                    System.out.println("Coloque um caracter minúsculo em sua senha!");
+                    System.out.println("Lista de caracteres minúsculos:\n" +
+                            "a b c d e f g h i j\n" +
+                            "k l m n o p q r s t\n" +
+                            "u v w z y z ç\n");
+                }
+                if (!senhaTemMaiusculo) {
+                    System.out.println("Requisito 4. Sua senha precisa ter no mínimo 1 caracter maiúsculo");
+                    System.out.println("Coloque um caracter maiúsculo em sua senha!");
+                    System.out.println("Lista de caracteres maiúsculos:\n" +
+                            "A B C D E F G H I J\n" +
+                            "K L M N O P Q R S T\n" +
+                            "U V W X Y Z Ç\n");
+                }
+                if (!senhaTemEspecial) {
+                    System.out.println("Requisito 5. Sua senha precisa ter no mínimo 1 caracter especial");
+                    System.out.println("Coloque um caracter especial em sua senha!");
+                    System.out.println("Lista de caracteres especiais disponíveis:\n" +
+                            "! @ # $ % ^ & * ( ) - +\n");
                 }
             }
         }
