@@ -45,7 +45,7 @@ public class Main {
                 case 2:
                     System.out.println("\nVocê escolheu a Questão 2 - Verificador de Senha Segura\n");
                     escolhaMenuInvalida = false;
-                    /*verificadorDeSenha();*/
+                    verificadorDeSenha();
                     break;
                 case 3:
                     System.out.println("\nVocê escolheu a Questão 3 - Verificador de Subanagramas\n");
@@ -74,7 +74,7 @@ public class Main {
         * Informando também que o número tem
         * que ser maior do que 0
         **/
-        System.out.println("Bem-vind@ à questão 1.\n");
+        System.out.println("Bem-vind@ à Questão 1 - Criador de Escada\n");
         System.out.println("Por favor, informe um número " +
                 "maior que zero para criarmos sua escada:");
         //criando variável para receber tamanho n
@@ -200,6 +200,48 @@ public class Main {
     }
 
     public static void verificadorDeSenha() {
+        Scanner leitor = new Scanner(System.in);
+        //Vamos informar ao usuário
+        /*
+         * Para que ele informe a senha a ser verificada
+         *
+         * E também informar os requisitos necessários
+         **/
+        System.out.println("Bem-vind@ à Questão 2 - Verificador de Senha Segura\n");
+        System.out.println("Para que sua senha seja considerada segura,");
+        System.out.println("você precisa atender estes requisitos:\n");
+        System.out.println("1. A senha tem no mínimo 6 caracteres\n" +
+                            "Exemplo: a1b2c3 - possui 6 caracteres");
+        System.out.println("2. A senha tem no mínimo 1 digito (número)\n" +
+                            "Exemplo: abcde1 - possui 1 digito (número) e 6 caracteres");
+        System.out.println("3. A senha tem no mínimo 1 letra minúscula\n" +
+                            "Exemplo: ABCDe1 - possui 1 letra minúscula, 1 digito e 6 caracteres");
+        System.out.println("4. A senha tem no mínimo 1 letra maiúscula\n" +
+                            "Exemplo: Abcde1 - possui 1 letra maiúscula, minúscula, 1 digito e 6 caracteres");
+        System.out.println("5. A senha tem no mínimo 1 caracter especial\n" +
+                            "       ! @ # $ % ^ & * ( ) - + \n" +
+                            "Exemplo: Ab#de1 - possui 1 caracter especial, maiúsculo, minúscula, 1 digito e 6 caracteres");
+        System.out.print("\n\nDigite a senha para ser verificada: ");
+        //usuário então escreve a senha
+        String senha = leitor.next();
+
+        //vamos armazenar o tamanho da senha depois de ser informada
+        int tamanhoDaSenha = senha.length();
+        //verificar se o tamanho é igual ou maior que 6 e armazenar em variável
+        boolean senhaTemTamanhoMinimo = tamanhoDaSenha >= 6;
+        //vamos pensar sobre a questão de ter ao menos um numero
+        Array
+        //verificar se a senha tem pelo menos 1 digito e armazenar em variável
+        boolean senhaTem1Digito;
+        //verificar se a senha tem pelo menos 1 char minusculo e armazenar em variável
+        boolean senhaTem1Minusculo;
+        //verificar se a senha tem pelo menos 1 char maiusculo e armazenar em variável
+        boolean senhaTem1Maiusculo;
+        //verificar se a senha tem pelo menos 1 char especial e armazenar em variável
+        boolean senhaTem1Especial;
+
+
+
 
     }
 
