@@ -1,5 +1,4 @@
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
@@ -434,27 +433,107 @@ public class Main {
         //este procedimento achará todos os possíveis
         //pares de substrings que são anagramas de uma string qualquer
 
+        //IMPORTANTE:
+        // SE ALGUMA SUBSTRING É ANAGRAMA DE OUTRA
+        //QUER DIZER QUE TODAS AS LETRAS QUE UMA POSSUI, TAMBÉM ESTÃO NA OUTRA
+        //NA QUANTIDADE IGUAL
+
+        //Nesse caso,
+        //podemos então verificar se
+        // , após ordenarmos todas as letras dessas substrings,
+        // são iguais uma a outra ou não.
+        //Se for, quer dizer que é um par de substring que é anagrama
+
+        //EXCEÇÕES
+        //se a string tiver apenas um caracter, o único par é do próprio caracter
+        //colocar talvez uma expressão que continue com > 1
+
         //Informando ao usuário
         System.out.println("Bem-vind@ à Questão 3 - Verificador de Anagramas em Substrings!");
         System.out.print("Informe uma palavra qualquer: ");
         //lendo a string informada pelo usuário
-        String stringLida = leitorq3.next();
+        String palavraLida = leitorq3.next();
+        //tamanho da palavra lida armazenada aqui abaixo
+        int tamanhoDaPalavra = palavraLida.length();
 
-        //variável que inicializa com o tamanho da stringLida menos 1 e vai decrementando-se -1
-        // e servirá para informar qual o tipo de tamanho de palavra que será analisado
-        // por exemplo:
-        // tamanhoDaPalavra == 1, quer dizer que apenas letras serão analisadas
-        // tamanhoDaPalavra == 2, quer dizer que todos os pares possíveis de letras na palavra serão analisadas
-        // e assim por diante
-        int tamanhoDaPalavra = stringLida.length() - 1;
+        //se todas as substrings da palavra são anagramas, teríamos essa regra
+        /*
+        * 12345
+        *  string qualquer, máximo de possibilidades
+        *
+        * tipoDeTamanho = 1
+        * 1,2
+        * 1,3
+        * 1,4
+        * 1,5
+        * 2,3
+        * 2,4
+        * 2,5
+        * 3,4
+        * 3,5
+        * 4,5
+        *
+        * tipoDeTamanho = 2
+        * 12,23
+        * 12,34
+        * 12,45
+        * 23,34
+        * 23,45
+        * 34,45
+        *
+        * tipoDeTamanho = 3
+        * 123,234
+        * 123,345
+        * 234,345
+        *
+        * tipoDeTamanho = 4 (último tipo válido)
+        * 1234,2345
+        *
+        * */
 
-        Arrays.sort();
+        //lista que armazenará todas as substrings da palavraLida
+        ArrayList<String> todaSubstring = new ArrayList<String>();
+
+
+        //colocando todas as substrings dentro da lista todaSubstring
+        for (int primeiroIndiceDaPalavra = 0;
+             primeiroIndiceDaPalavra < tamanhoDaPalavra;
+             primeiroIndiceDaPalavra++) {
+            for (int segundo = primeiroIndiceDaPalavra; segundo < tamanhoDaPalavra; segundo++) {
+                todaSubstring.add(palavraLida.substring(primeiroIndiceDaPalavra, segundo + 1));
+            }
+        }
+        int tamanhoDeTodaSubstring = todaSubstring.size();
+
+        ArrayList<String> listaDeParesDeSubstringsAnagramas = new ArrayList<>();
+
+        for (int primeiroIndiceDaPalavra = 0;
+             primeiroIndiceDaPalavra < tamanhoDeTodaSubstring;
+             primeiroIndiceDaPalavra++) {
+            for (int segundo = primeiroIndiceDaPalavra + 1; segundo < tamanhoDeTodaSubstring; segundo++) {
+                String primeiraPalavra = todaSubstring.get(primeiroIndiceDaPalavra);
+                String segundaPalavra = todaSubstring.get(segundo);
+                char[] listaPrimeiraPalavra = primeiraPalavra.toCharArray();
+                char[] listaSegundaPalavra = segundaPalavra.toCharArray();
+                Arrays.sort(listaPrimeiraPalavra);
+                Arrays.sort(listaSegundaPalavra);
+                String novaPrimeiraPalavra = new String(listaPrimeiraPalavra);
+                String novaSegundaPalavra = new String(listaSegundaPalavra);
+                ArrayList<String> parAnagrama = new ArrayList<>();
+                if (novaPrimeiraPalavra.equals(novaSegundaPalavra)){
+                    parAnagrama.add(primeiraPalavra);
+                    parAnagrama.add(segundaPalavra);
+                    listaDeParesDeSubstringsAnagramas.add(parAnagrama.get(0));
+                    listaDeParesDeSubstringsAnagramas.add(parAnagrama.get(1));
+                }
+            }
+        }
+
 
         //informando os resultados ao usuário depois do processamento de dados
         System.out.println("\nEstes são os pares de substrings que são anagramas:");
-        System.out.println("Array de Substrings");
-        System.out.println("Nos índices: " + "Array de Índices");
-        System.out.println("Na palavra que você informou: " + stringLida);
+        System.out.println(listaDeParesDeSubstringsAnagramas);
+        System.out.println("Na palavra que você informou: " + palavraLida);
 
         //programa espera o usuário fazer esta ação abaixo, apenas para deixar a informação
         //na tela mais controlada e menos abrupta
